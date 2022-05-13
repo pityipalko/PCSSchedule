@@ -39,15 +39,15 @@ input {
 }
 table tr td:nth-child(1) {
   background-color: #1f4068;
-  width: 130px;
+  width: 160px;
 }
 table tr td:nth-child(2) {
   background-color: #1b1b2f;
-  width: 125px;
+  width: 140px;
 }
 table tr td:nth-child(3) {
   background-color: #e43f5a;
-  width: 125px;
+  width: 140px;
 }
 #calendar {
   display: flex;
@@ -78,4 +78,7 @@ button {
   border: none;
   margin: 3px;
   cursor: pointer;
+}
+.walkout td {
+  background-color: green !important;
 }

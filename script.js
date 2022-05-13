@@ -33,8 +33,8 @@ let override;
 //get the schedule json in case it's been updated
 fetch("https://gist.githubusercontent.com/piguyisme/e652e0a5009f17efde347c390767d069/raw/schedule.json")
 .then(
-  (data) => {
-    if (JSON.parse(data) != defaultAllSchedules) {
+  async(data) => {
+    if (await data.json() != defaultAllSchedules) {
       defaultAllSchedules = JSON.parse(data);
       generateSchedule(defaultAllSchedules);
     }
@@ -44,8 +44,8 @@ fetch("https://gist.githubusercontent.com/piguyisme/e652e0a5009f17efde347c390767
 //get the override data for rallies and stuff
 fetch("https://gist.githubusercontent.com/piguyisme/db88af35c569b7b5a8aff60c679f527c/raw/overrides.json")
 .then(
-  (data) => {
-    override = JSON.parse(data);
+  async(data) => {
+    override = await data.json();
     generateSchedule(defaultAllSchedules);
   }
 );
@@ -115,22 +115,29 @@ function generateSchedule(allSchedules) {
       });
 
       //Add period to schedule in the DOM
-      let pTitle =
-        currentP.name +
-        (currentP.name != "Break" &&
-        currentP.name != "Lunch" &&
-        getClassName(currentP.name)
-          ? ": " + getClassName(currentP.name)
-          : "");
-      document.getElementById("periods").innerHTML += `<tr${
-        currentP.name == "Break" || currentP.name == "Lunch"
-          ? " class='break'"
-          : " value=" + currentP.name
-      }>
-        <td>${pTitle}</td>
-        <td>${startAPM}</td>
-        <td>${endAPM}</td>
-      </tr>`;
+      //Set user-define period title if it exists
+      let pTitle;
+      if (currentP.name != "Break" && currentP.name != "Lunch" && !currentP.name.includes("walkout") /**Temporary for protest */ && getClassName(currentP.name)) {
+        pTitle = currentP.name + ": " + getClassName(currentP.name);
+      } else {//set it to default if there is no user-defined title
+        pTitle = currentP.name;
+      }
+
+      //Create table row
+      let tr = '<tr';
+      if(currentP.name.includes("walkout")) {
+        tr += ' class="walkout"'
+      } else if(currentP.name == "Break" || currentP.name == "Lunch") {
+        tr += ' class="break"'
+      } else {
+        tr += " value=" + currentP.name;
+      }
+      tr += `>
+      <td>${pTitle}</td>
+      <td>${startAPM}</td>
+      <td>${currentP.name.includes("walkout") ? "~" : ""}${endAPM}</td>
+    </tr>`
+      document.getElementById("periods").innerHTML += tr;
     }
 
     $(".pinput").each(function (i) {

@@ -11,7 +11,7 @@ $.ajaxSetup({ cache: false });
 
 //the default schedule
 let defaultAllSchedules = JSON.parse(
-  '[[{"name":"1","start":"7:40","end":"8:30"},{"name":"2","start":"8:35","end":"9:30"},{"name":"3","start":"9:35","end":"10:27"},{"name":"Break","start":"10:27","end":"10:42"},{"name":"4","start":"10:47","end":"11:39"},{"name":"5","start":"11:44","end":"12:36"},{"name":"Lunch","start":"12:36","end":"13:06"},{"name":"6","start":"13:11","end":"14:03"},{"name":"7","start":"14:08","end":"15:00"}],[{"name":"1","start":"7:40","end":"8:30"},{"name":"2","start":"8:35","end":"10:10"},{"name":"Break","start":"10:10","end":"10:25"},{"name":"4","start":"10:30","end":"12:05"},{"name":"Tutorial","start":"12:10","end":"12:50"},{"name":"Lunch","start":"12:50","end":"13:20"},{"name":"6","start":"13:25","end":"15:00"}],[{"name":"1","start":"7:40","end":"8:30"},{"name":"3","start":"8:35","end":"10:10"},{"name":"Break","start":"10:10","end":"10:25"},{"name":"5","start":"10:30","end":"12:05"},{"name":"Lunch","start":"12:05","end":"12:35"},{"name":"7","start":"12:40","end":"14:15"}],[{"name":"1","start":"7:40","end":"8:30"},{"name":"2","start":"8:35","end":"10:10"},{"name":"Break","start":"10:10","end":"10:25"},{"name":"4","start":"10:30","end":"12:05"},{"name":"Tutorial","start":"12:10","end":"12:50"},{"name":"Lunch","start":"12:50","end":"13:20"},{"name":"6","start":"13:25","end":"15:00"}],[{"name":"1","start":"7:40","end":"8:30"},{"name":"3","start":"8:35","end":"10:10"},{"name":"Break","start":"10:10","end":"10:25"},{"name":"5","start":"10:30","end":"12:05"},{"name":"Lunch","start":"12:05","end":"12:35"},{"name":"7","start":"12:40","end":"14:15"}]]'
+  '[[{"name":"1","start":"8:30","end":"9:15"},{"name":"2","start":"9:20","end":"10:10"},{"name":"3","start":"10:15","end":"11:05"},{"name":"Break","start":"11:05","end":"11:20"},{"name":"4","start":"11:25","end":"12:15"},{"name":"5","start":"12:20","end":"13:10"},{"name":"Lunch","start":"13:10","end":"13:40"},{"name":"6","start":"13:45","end":"14:35"},{"name":"7","start":"14:40","end":"15:30"}],[{"name":"1","start":"8:30","end":"9:36"},{"name":"3","start":"9:41","end":"11:18"},{"name":"Break","start":"11:18","end":"11:33"},{"name":"5","start":"11:38","end":"13:15"},{"name":"Lunch","start":"13:15","end":"13:48"},{"name":"7","start":"13:53","end":"15:30"}],[{"name":"2","start":"8:30","end":"10:07"},{"name":"Tutorial","start":"10:12","end":"11:18"},{"name":"Break","start":"11:18","end":"11:33"},{"name":"4","start":"11:38","end":"13:15"},{"name":"Lunch","start":"13:15","end":"13:48"},{"name":"6","start":"13:53","end":"15:30"}],[{"name":"1","start":"8:30","end":"9:36"},{"name":"3","start":"9:41","end":"11:18"},{"name":"Break","start":"11:18","end":"11:33"},{"name":"5","start":"11:38","end":"13:15"},{"name":"Lunch","start":"13:15","end":"13:48"},{"name":"7","start":"13:53","end":"15:30"}],[{"name":"1","start":"8:30","end":"9:36"},{"name":"2","start":"9:41","end":"11:18"},{"name":"Break","start":"11:18","end":"11:33"},{"name":"4","start":"11:38","end":"13:15"},{"name":"Lunch","start":"13:15","end":"13:48"},{"name":"6","start":"13:53","end":"15:30"}]]'
 );
 
 let latestIntervalID;
@@ -34,8 +34,9 @@ let override;
 fetch("https://gist.githubusercontent.com/piguyisme/e652e0a5009f17efde347c390767d069/raw/schedule.json")
 .then(
   async(data) => {
-    if (await data.json() != defaultAllSchedules) {
-      defaultAllSchedules = JSON.parse(data);
+    const response = await data.json();
+    if (response != defaultAllSchedules) {
+      defaultAllSchedules = response;
       generateSchedule(defaultAllSchedules);
     }
   }

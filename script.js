@@ -31,7 +31,7 @@ function newDebugDate() {
 let override;
 
 //get the schedule json in case it's been updated
-fetch("https://gist.githubusercontent.com/piguyisme/e652e0a5009f17efde347c390767d069/raw/schedule.json", {cache: "no-store"})
+fetch("https://gist.githubusercontent.com/piguyisme/e652e0a5009f17efde347c390767d069/raw/schedule.json?=" + Math.floor(Math.random() * 1000), {cache: "no-store"})
 .then(
   async(data) => {
     const response = await data.json();
@@ -43,7 +43,7 @@ fetch("https://gist.githubusercontent.com/piguyisme/e652e0a5009f17efde347c390767
 );
 
 //get the override data for rallies and stuff
-fetch("https://gist.githubusercontent.com/piguyisme/db88af35c569b7b5a8aff60c679f527c/raw/overrides.json", {cache: "no-store"})
+fetch("https://gist.githubusercontent.com/piguyisme/db88af35c569b7b5a8aff60c679f527c/raw/overrides.json?=" + Math.floor(Math.random() * 1000), {cache: "no-store"})
 .then(
   async(data) => {
     override = await data.json();
